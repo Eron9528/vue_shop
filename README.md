@@ -1,24 +1,9 @@
-# vue_shop
+#### 21-1-3
+ * 搭建前端页面
+   - 利用elememnt.js 搭建
 
-## Project setup
-```
-npm install
-```
+#### 21-1-4
+ * axios发送请求
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -47,11 +47,9 @@ export default {
     },
     login () {
       this.$refs.loginFormRef.validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
+        if (!valid) {
+          const result = this.$http.post('login', this.loginForm)
+          console.log(result)
         }
       })
     }
