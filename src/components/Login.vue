@@ -46,19 +46,20 @@ export default {
       this.$refs.loginFormRef.resetFields()
     },
     login () {
-      debugger
-      console.log(1)
       this.$refs.loginFormRef.validate(async (valid) => {
         if (valid) {
-          debugger
-          console.log(this.loginForm.username)
           const result = await this.$http.get('login?username=' + this.loginForm.username + '&password=' + this.loginForm.password)
-          console.log(result.data)
-          if (result.data === 'success') {
+          if (result.data.data === 'success') {
             this.$message.success('登录成功')
           } else {
             this.$message.error('登录失败')
           }
+          // 1.将登录后的token,保存到客户端的 sessionStroage 中
+          //   1.1 项目中除了登录之外的其他API 接口，必须在登录之后才能访问
+          //   1.2 token 只应在当前网站打开期间生效， 所以将 token 保存在 sessionStorage 中
+          // 2.通过编程式导航跳转到后台主页， 路由地址是 /home
+          window.sessionStorage.setItem('token', result.data.token)
+          this.$router.push('/home')
         }
       })
     }
