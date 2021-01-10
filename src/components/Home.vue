@@ -20,21 +20,25 @@
           unique-opened
           :collapse="isCollapse"
           :collapse-transition="false"
+          router
+          :default-active='activePath'
         >
-          <el-submenu :index="index" v-for="(index,item) in menulist" :key="index+''">
+          <el-submenu :index="index+''" v-for="(index,item) in menulist" :key="index+''">
             <template slot="title">
               <i :class="iconObj[item]"></i>
               <span>{{item}}</span>
             </template>
-            <el-menu-item :index="li" v-for="li in menulist[item]" :key="li+''">
+            <el-menu-item :index="'/'+li[0]" v-for="li in menulist[item]" :key="li[0]+''" @click="saveNavState('/'+li[0])">
               <template slot="title">
                 <li class="el-icon-menu"></li>
-                <span>{{li}}</span>
+                <span>{{li[1]}}</span>
               </template></el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 
@@ -47,14 +51,18 @@ export default {
       // 左侧菜单栏数据
       menulist: [],
       iconObj: {
+        用户管理: 'el-icon-s-shop',
         商品管理: 'el-icon-s-shop',
         订单管理: 'el-icon-s-order'
       },
-      isCollapse: []
+      isCollapse: false,
+      // 被激活的链接地址
+      activePath: ''
     }
   },
   created() {
     this.getMenuList()
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     logout () {
@@ -73,6 +81,11 @@ export default {
     // 点击按钮，切换菜单的折叠与展开
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
+    },
+    // 保存链接的激活状态
+    saveNavState(activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     }
   }
 }
