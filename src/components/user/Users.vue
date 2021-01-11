@@ -53,15 +53,61 @@
           label="状态"
         >
           <template slot-scope='scope'>
-            <el-switch
-              v-model='scope.row.state'
-            >
+            <el-switch v-model='scope.row.state'>
             </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作">
+          <template>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="修改"
+              placement="top-start"
+            >
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                size='mini'
+              ></el-button>
+            </el-tooltip>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top-start"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size='mini'
+              ></el-button>
+            </el-tooltip>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="分配权限"
+              placement="top-start"
+            >
+              <el-button
+                type="warning"
+                icon="el-icon-setting"
+                size='mini'
+              ></el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
       </el-table>
+       <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page='this.queryInfo.pagenum'
+          :page-sizes="[1, 2, 5, 10]"
+          :page-size='this.queryInfo.pagesize'
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        >
+        </el-pagination>
     </el-card>
   </div>
 </template>
@@ -77,7 +123,7 @@ export default {
         pagesize: 2
       },
       userList: [],
-      total: 0
+      total: 1
     }
   },
   created() {
@@ -91,7 +137,16 @@ export default {
       if (res.status !== 202) return this.$message.error('获取用户失败')
       this.userList = res.data
       console.log(res.data)
+    },
+    handleSizeChange(newSize) {
+      this.queryInfo.pagesize = newSize
+      this.getUserList()
+    },
+    handleCurrentChange(newChange) {
+      this.queryInfo.pagenum = newChange
+      this.getUserList()
     }
+
   }
 }
 </script>
