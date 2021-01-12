@@ -11,10 +11,11 @@
 
       <el-row :gutter="20 ">
         <el-col :span='7'>
-          <el-input placeholder="请输入内容">
+          <el-input placeholder="请输入内容" v-model='queryInfo.query'
+          clearable @clear='getUserList()'>
             <el-button
               slot="append"
-              icon="el-icon-search"
+              icon="el-icon-search" @click="getUserList()"
             ></el-button>
           </el-input>
 
@@ -53,7 +54,7 @@
           label="状态"
         >
           <template slot-scope='scope'>
-            <el-switch v-model='scope.row.state'>
+            <el-switch v-model='scope.row.state' @change="userStateChanged(scope.row)">
             </el-switch>
           </template>
         </el-table-column>
@@ -145,8 +146,20 @@ export default {
     handleCurrentChange(newChange) {
       this.queryInfo.pagenum = newChange
       this.getUserList()
+    },
+    // 监听swtich 状态的改变
+    async userStateChanged(userInfo) {
+      const { data: res } = await this.$http.put(`users/${userInfo.id}/${userInfo.state}`)
+      if (res.status !== 202) {
+        this.userInfo.state = !userInfo.state
+        return this.$message.error('更新状态失败')
+      }
+    },
+    // 根据名称搜索用户
+    async findUser(username) {
+      const { data: res } = await this.$http.get(`getUserByName/${username}`)
+      console.log(res)
     }
-
   }
 }
 </script>
