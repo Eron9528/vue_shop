@@ -53,24 +53,24 @@
       </el-pagination>
     </el-card>
 
-    <el-dialog title="添加用户" :visible.sync="dialogVisible" width="50%">
+    <el-dialog title="添加用户" :visible.sync="dialogVisible" width="50%" @close='addFormClose'>
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef">
         <el-form-item label="用户名" label-width="70px" prop="username">
           <el-input v-model="addForm.username"></el-input>
         </el-form-item>
-        <el-form-item label="密码" label-width="70px">
+        <el-form-item label="密码" label-width="70px" prop="password">
           <el-input v-model="addForm.password"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="性别" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item> -->
+        <el-form-item label="邮箱" label-width="70px" prop="email">
+          <el-input v-model="addForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" label-width="70px" prop="phone">
+          <el-input v-model="addForm.phone"></el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="addUser()">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -80,6 +80,20 @@
 <script>
 export default {
   data() {
+    var checkEmail = (rule, value, cb) => {
+      const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9-])+/
+      if (regEmail.test(value)) {
+        return cb()
+      }
+      cb(new Error('请输入合法的邮箱'))
+    }
+    var checkPhone = (rule, value, cb) => {
+      const regPhone = /^(0|86|17951)?(13[0-9]|15[0123456789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      if (regPhone.test(value)) {
+        return cb()
+      }
+      cb(new Error('请输入合法的手机号'))
+    }
     return {
       // 获取用户列表的参数对象
       queryInfo: {
@@ -93,17 +107,37 @@ export default {
       // 添加用户的表单数据
       addForm: {
         username: '',
-        password: ''
+        password: '',
+        email: '',
+        phone: ''
       },
       // 添加表单验证规则对象
       addFormRules: {
         username: [
           { required: true, message: '请输入用户名称', trigger: 'blur' },
-          { min: 3, max: 10, message: '用户名称的长度应该在3到10个字符之间', trigger: 'blur' }
+          {
+            min: 3,
+            max: 10,
+            message: '用户名称的长度应该在3到10个字符之间',
+            trigger: 'blur'
+          }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 16, message: '用户名称的长度应该在6到16个字符之间', trigger: 'blur' }
+          {
+            min: 6,
+            max: 16,
+            message: '用户名称的长度应该在6到16个字符之间',
+            trigger: 'blur'
+          }
+        ],
+        email: [
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { validator: checkEmail }
+        ],
+        phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkPhone }
         ]
       }
     }
@@ -142,6 +176,17 @@ export default {
     async findUser(username) {
       const { data: res } = await this.$http.get(`getUserByName/${username}`)
       console.log(res)
+    },
+    addFormClose () {
+      this.$refs.addFormRef.resetFields()
+    },
+    // 添加用户
+    addUser () {
+      this.$refs.addFormRef.validate(valid => {
+        if (!valid) return
+        // 可以发起添加用户的网络请求
+        this.$http.post('adduser', this.addForm)
+      })
     }
   }
 }
