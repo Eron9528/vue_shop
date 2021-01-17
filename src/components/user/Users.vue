@@ -53,6 +53,7 @@
       </el-pagination>
     </el-card>
 
+    <!-- 添加用户弹出框 -->
     <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%" @close='addFormClose'>
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef">
         <el-form-item label="用户名" label-width="70px" prop="username">
@@ -75,18 +76,18 @@
     </el-dialog>
 
     <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%">
+      <el-form ref="editFormRef" :model="editForm" :rules="editFormRules " label-width="80px">
+        <el-form-item label="用户名">
+          <el-input v-model="editForm.username" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="editForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="phone">
+          <el-input v-model="editForm.phone"></el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-form ref="editFormRef" :model="editForm" :rules="editFormRules " label-width="80px">
-          <el-form-item label="用户名">
-            <el-input v-model="editForm.username" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="editForm.email"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="phone">
-            <el-input v-model="editForm.phone"></el-input>
-          </el-form-item>
-        </el-form>
         <el-button @click="editConsole()">取 消</el-button>
         <el-button type="primary" @click="editUserInfo()">确 定</el-button>
       </span>
@@ -262,7 +263,7 @@ export default {
         // 刷新数据列表
         this.getUserList()
         // 提示用户修改成功
-        this.$message.error('修改用户成功')
+        this.$message.success('修改用户成功')
       })
     },
     deleteUser(id) {
