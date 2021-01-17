@@ -35,7 +35,7 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作">56
+        <el-table-column label="操作">
           <template slot-scope='scope'>
             <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
               <el-button type="primary" icon="el-icon-edit" size='mini' @click="editUserDailog(scope.row.id)"></el-button>
@@ -178,7 +178,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const { data: res } = await this.$http.get('users', {
+      const { data: res } = await this.$http.get('/api/users', {
         params: this.queryInfo
       })
       if (res.status !== 202) return this.$message.error('获取用户失败')
@@ -196,7 +196,7 @@ export default {
     // 监听swtich 状态的改变
     async userStateChanged(userInfo) {
       const { data: res } = await this.$http.put(
-        `users/${userInfo.id}/${userInfo.state}`
+        `api/users/${userInfo.id}/${userInfo.state}`
       )
       if (res.status !== 202) {
         this.userInfo.state = !userInfo.state
@@ -216,7 +216,7 @@ export default {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return
         // 可以发起添加用户的网络请求
-        const { data: res } = await this.$http.post('adduser', this.addForm)
+        const { data: res } = await this.$http.post('api/adduser', this.addForm)
         if (res.status !== 202) {
           return this.$message.error('添加用户失败')
         }
@@ -227,7 +227,7 @@ export default {
     },
     // 弹出修改对话框
     async editUserDailog(id) {
-      const { data: res } = await this.$http.get('getUser/' + id)
+      const { data: res } = await this.$http.get('api/getUser/' + id)
       console.log(res)
       if (res.status !== 202) {
         return this.$message.error('打开用户失败')
@@ -247,7 +247,7 @@ export default {
         if (!valid) return
         // 发起修改用户的数据请求
         const { data: res } = await this.$http.put(
-          'updateUser/' + this.editForm.id,
+          'api/updateUser/' + this.editForm.id,
           {
             email: this.editForm.email,
             phone: this.editForm.phone
@@ -272,7 +272,7 @@ export default {
         type: 'warning'
       })
         .then(async () => {
-          const { data: res } = await this.$http.delete('deleteUser/' + id)
+          const { data: res } = await this.$http.delete('api/deleteUser/' + id)
           console.log(res)
           if (res.status !== 202) {
             return this.$message.error('删除用户失败')

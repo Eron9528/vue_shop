@@ -52,6 +52,7 @@ export default {
       menulist: [],
       iconObj: {
         用户管理: 'el-icon-s-shop',
+        权限管理: 'el-icon-s-shop',
         商品管理: 'el-icon-s-shop',
         订单管理: 'el-icon-s-order'
       },
@@ -71,7 +72,7 @@ export default {
     },
     // 获取所有的菜单
     async getMenuList() {
-      const { data: res } = await this.$http.get('/getMenu')
+      const { data: res } = await this.$http.get('api/getMenu')
       if (res.status !== 202) {
         return this.$message.error(res.msg)
       }

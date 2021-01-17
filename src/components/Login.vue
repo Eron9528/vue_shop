@@ -48,7 +48,7 @@ export default {
     login () {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (valid) {
-          const result = await this.$http.get('login?username=' + this.loginForm.username + '&password=' + this.loginForm.password)
+          const result = await this.$http.get('api/login?username=' + this.loginForm.username + '&password=' + this.loginForm.password)
           if (result.data.data === 'success') {
             this.$message.success('登录成功')
           } else {
