@@ -179,7 +179,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const { data: res } = await this.$http.get('/api/users', {
+      const { data: res } = await this.$http.get('/users/users', {
         params: this.queryInfo
       })
       if (res.status !== 202) return this.$message.error('获取用户失败')
@@ -197,7 +197,7 @@ export default {
     // 监听swtich 状态的改变
     async userStateChanged(userInfo) {
       const { data: res } = await this.$http.put(
-        `api/users/${userInfo.id}/${userInfo.state}`
+        `users/users/${userInfo.id}/${userInfo.state}`
       )
       if (res.status !== 202) {
         this.userInfo.state = !userInfo.state
@@ -206,7 +206,7 @@ export default {
     },
     // 根据名称搜索用户
     async findUser(username) {
-      const { data: res } = await this.$http.get(`getUserByName/${username}`)
+      const { data: res } = await this.$http.get(`users/getUserByName/${username}`)
       console.log(res)
     },
     addFormClose() {
@@ -217,7 +217,7 @@ export default {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return
         // 可以发起添加用户的网络请求
-        const { data: res } = await this.$http.post('api/adduser', this.addForm)
+        const { data: res } = await this.$http.post('users/adduser', this.addForm)
         if (res.status !== 202) {
           return this.$message.error('添加用户失败')
         }
@@ -228,7 +228,7 @@ export default {
     },
     // 弹出修改对话框
     async editUserDailog(id) {
-      const { data: res } = await this.$http.get('api/getUser/' + id)
+      const { data: res } = await this.$http.get('users/getUser/' + id)
       console.log(res)
       if (res.status !== 202) {
         return this.$message.error('打开用户失败')
@@ -248,7 +248,7 @@ export default {
         if (!valid) return
         // 发起修改用户的数据请求
         const { data: res } = await this.$http.put(
-          'api/updateUser/' + this.editForm.id,
+          'users/updateUser/' + this.editForm.id,
           {
             email: this.editForm.email,
             phone: this.editForm.phone
@@ -273,7 +273,7 @@ export default {
         type: 'warning'
       })
         .then(async () => {
-          const { data: res } = await this.$http.delete('api/deleteUser/' + id)
+          const { data: res } = await this.$http.delete('users/deleteUser/' + id)
           console.log(res)
           if (res.status !== 202) {
             return this.$message.error('删除用户失败')
