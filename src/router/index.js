@@ -6,6 +6,8 @@ import Welcome from '../components/Welcome.vue'
 import User from '../components/user/Users.vue'
 import Rights from '../components/power/Rights.vue'
 import Roles from '../components/power/Roles.vue'
+import ImportCalendar from '../components/calendar/Import.vue'
+import CalendarShow from '../components/calendar/Calendar.vue'
 
 Vue.use(Router)
 
@@ -21,7 +23,9 @@ const router = new Router({
         { path: '/welcome', component: Welcome },
         { path: '/user', component: User },
         { path: '/rights', component: Rights },
-        { path: '/roles', component: Roles }
+        { path: '/roles', component: Roles },
+        { path: '/import', component: ImportCalendar },
+        { path: '/calendar', component: CalendarShow }
       ]
     }
   ]

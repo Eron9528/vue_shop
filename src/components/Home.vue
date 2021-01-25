@@ -54,7 +54,8 @@ export default {
         用户管理: 'el-icon-s-shop',
         权限管理: 'el-icon-s-shop',
         商品管理: 'el-icon-s-shop',
-        订单管理: 'el-icon-s-order'
+        订单管理: 'el-icon-s-order',
+        工作日历: 'el-icon-s-order'
       },
       isCollapse: false,
       // 被激活的链接地址
