@@ -16,6 +16,24 @@
       <el-table :data="rolesList" border style="width: 100%" class="roletable" stripe type="expend">
         <el-table-column type="expand">
           <template slot-scope="scope">
+            <!-- 通过for 循环渲染一级权限 -->
+            <el-row :class="['bdbutton', i1 === 0 ? 'bdtop' : '']" v-for="(item1, i1) in scope.row.childrenList" :key="item1.id">
+              <!-- 第一级权限 -->
+              <el-col :span = "5">
+                <el-tag>{{item1.lable}}</el-tag>
+                <i class="el-icon-caret-right"></i>
+              </el-col>
+              <!-- 第二级权限和第三级权限 -->
+              <el-col :span = "19">
+                <el-row :class="[i2 === 0 ? '' : 'bdtop']" v-for="(item2, i2) in item1.children" :key="item2.id">
+                  <el-row :span = "5">
+                    <el-tag type="success"> {{item2.lable}}</el-tag>
+                    <i class="el-icon-caret-right"></i>
+                  </el-row>
+                  <el-row></el-row>
+                </el-row>
+              </el-col>
+            </el-row>
             <pre>
               {{scope.row}}
               </pre>
@@ -223,5 +241,14 @@ export default {
 <style lang="less" scoped>
 .roletable {
   margin-top: 15px;
+}
+.el-tag{
+  margin: 7px;
+}
+.bdtop{
+  border-top: 1px solid #eee
+}
+.bdbutton{
+  border-bottom: 1px solid #eee;
 }
 </style>
