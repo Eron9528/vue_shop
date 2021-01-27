@@ -14,7 +14,13 @@
         </el-col>
       </el-row>
       <el-table :data="rolesList" border style="width: 100%" class="roletable" stripe type="expend">
-        <el-table-column type="expand"> </el-table-column>
+        <el-table-column type="expand">
+          <template slot-scope="scope">
+            <pre>
+              {{scope.row}}
+              </pre>
+          </template>
+        </el-table-column>
         <el-table-column type="index" width="50">
         </el-table-column>
         <el-table-column prop="roleName" label="角色名称" width="380">
@@ -189,7 +195,9 @@ export default {
         type: 'warning'
       })
         .then(async () => {
-          const { data: res } = await this.$http.delete('roles/deleteRole/' + id)
+          const { data: res } = await this.$http.delete(
+            'roles/deleteRole/' + id
+          )
           console.log(res)
           if (res.status !== 202) {
             return this.$message.error('删除角色失败')
