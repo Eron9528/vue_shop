@@ -17,26 +17,25 @@
         <el-table-column type="expand">
           <template slot-scope="scope">
             <!-- 通过for 循环渲染一级权限 -->
-            <el-row :class="['bdbutton', i1 === 0 ? 'bdtop' : '']" v-for="(item1, i1) in scope.row.childrenList" :key="item1.id">
+            <el-row :class="['bdbutton', i1 === 0 ? 'bdtop' : '', 'vcenter']" v-for="(item1, i1) in scope.row.childrenList" :key="item1.id">
               <!-- 第一级权限 -->
-              <el-col :span = "5">
+              <el-col :span="5">
                 <el-tag>{{item1.lable}}</el-tag>
                 <i class="el-icon-caret-right"></i>
               </el-col>
               <!-- 第二级权限和第三级权限 -->
-              <el-col :span = "19">
-                <el-row :class="[i2 === 0 ? '' : 'bdtop']" v-for="(item2, i2) in item1.children" :key="item2.id">
-                  <el-row :span = "5">
+              <el-col :span="19">
+                <el-row :class="[i2 === 0 ? '' : 'bdtop', 'vcenter']" v-for="(item2, i2) in item1.children" :key="item2.id">
+                  <el-col :span="6">
                     <el-tag type="success"> {{item2.lable}}</el-tag>
                     <i class="el-icon-caret-right"></i>
-                  </el-row>
-                  <el-row></el-row>
+                  </el-col>
+                  <el-col :span="18">
+                    <el-tag v-for="(item3) in item2.children" :key="item3.id" type="warn" closable @close="removeRightById()"> {{item3.lable}}</el-tag>
+                  </el-col>
                 </el-row>
               </el-col>
             </el-row>
-            <pre>
-              {{scope.row}}
-              </pre>
           </template>
         </el-table-column>
         <el-table-column type="index" width="50">
@@ -115,8 +114,8 @@ export default {
           { required: true, message: '请输入角色名称', trigger: 'blur' },
           {
             min: 2,
-            max: 10,
-            message: '角色名称的长度应该在2到10个字符之间',
+            max: 15,
+            message: '角色名称的长度应该在2到15个字符之间',
             trigger: 'blur'
           }
         ],
@@ -233,6 +232,29 @@ export default {
             message: '已取消删除'
           })
         })
+    },
+    removeRightById() {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async () => {
+          const { data: res } = this.$http.delete('roles/deleteRoleRightById')
+          if (res.status !== 202) {
+            this.$message.error('移除本角色权限失败')
+          }
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     }
   }
 }
@@ -242,13 +264,17 @@ export default {
 .roletable {
   margin-top: 15px;
 }
-.el-tag{
+.el-tag {
   margin: 7px;
 }
-.bdtop{
-  border-top: 1px solid #eee
+.bdtop {
+  border-top: 1px solid #eee;
 }
-.bdbutton{
+.bdbutton {
   border-bottom: 1px solid #eee;
+}
+.vcenter {
+  display: flex;
+  align-items: center;
 }
 </style>

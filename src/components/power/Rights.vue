@@ -101,8 +101,8 @@ export default {
           { require: true, message: '请添加权限名称', trigger: 'blur' },
           {
             min: 2,
-            max: 10,
-            message: '角色名称的长度应该在2到10个字符之间',
+            max: 15,
+            message: '角色名称的长度应该在2到1个字符之间',
             trigger: 'blur'
           }
         ],

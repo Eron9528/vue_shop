@@ -8,6 +8,11 @@ import Rights from '../components/power/Rights.vue'
 import Roles from '../components/power/Roles.vue'
 import ImportCalendar from '../components/calendar/Import.vue'
 import CalendarShow from '../components/calendar/Calendar.vue'
+import Java from '../components/interview/Java.vue'
+import Mysql from '../components/interview/Mysql.vue'
+import Spring from '../components/interview/Spring.vue'
+import SpringBoot from '../components/interview/SpringBoot.vue'
+import SpringCloud from '../components/interview/SpringCloud.vue'
 
 Vue.use(Router)
 
@@ -25,7 +30,12 @@ const router = new Router({
         { path: '/rights', component: Rights },
         { path: '/roles', component: Roles },
         { path: '/import', component: ImportCalendar },
-        { path: '/calendar', component: CalendarShow }
+        { path: '/calendar', component: CalendarShow },
+        { path: '/basic', component: Java },
+        { path: '/mysql', component: Mysql },
+        { path: '/spring', component: Spring },
+        { path: '/boot', component: SpringBoot },
+        { path: '/cloud', component: SpringCloud }
       ]
     }
   ]
