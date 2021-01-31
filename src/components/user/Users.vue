@@ -246,7 +246,7 @@ export default {
     editUserInfo() {
       this.$refs.editFormRef.validate(async valid => {
         if (!valid) return
-        // 发起修改用户的数据请求
+        // 发起修改用户  的数据请求
         const { data: res } = await this.$http.put(
           'users/updateUser/' + this.editForm.id,
           {

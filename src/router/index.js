@@ -13,6 +13,7 @@ import Mysql from '../components/interview/Mysql.vue'
 import Spring from '../components/interview/Spring.vue'
 import SpringBoot from '../components/interview/SpringBoot.vue'
 import SpringCloud from '../components/interview/SpringCloud.vue'
+import AddEdit from '../components/interview/AddEdit.vue'
 
 Vue.use(Router)
 
@@ -35,7 +36,8 @@ const router = new Router({
         { path: '/mysql', component: Mysql },
         { path: '/spring', component: Spring },
         { path: '/boot', component: SpringBoot },
-        { path: '/cloud', component: SpringCloud }
+        { path: '/cloud', component: SpringCloud },
+        { path: '/addEdit', component: AddEdit }
       ]
     }
   ]
